@@ -1,0 +1,5 @@
+FROM openjdk:23-slim
+VOLUME /tmp
+ARG JAR_FILE=target/booked-room-service-0.0.1-SNAPSHOT.jar
+COPY ${JAR_FILE} booked-room-service-0.0.1-SNAPSHOT.jar
+ENTRYPOINT ["java", "-jar", "/booked-room-service-0.0.1-SNAPSHOT.jar"]
