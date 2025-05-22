@@ -10,16 +10,7 @@ public class BookedRoom {
     private LocalDateTime checkInTime;
     private LocalDateTime checkOutTime;
     private BigDecimal priceAtBookTime;
-    private List<UUID> roomIds;
     private UUID bookingId;
-
-    public List<UUID> getRoomIds() {
-        return roomIds;
-    }
-
-    public void setRoomIds(List<UUID> roomIds) {
-        this.roomIds = roomIds;
-    }
 
     public UUID getBookingId() {
         return bookingId;

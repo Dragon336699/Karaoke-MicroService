@@ -3,9 +3,12 @@ package com.example.karaoke.booking_service.Entity;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
+import jakarta.persistence.Transient;
 
 import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 import java.util.Date;
+import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -17,6 +20,20 @@ public class Booking {
     private String note;
     private UUID customerId;
     private UUID userId;
+    @Transient
+    private List<BookedRoom> bookedRooms;
+
+    public List<BookedRoom> getBookedRooms() {
+        return bookedRooms;
+    }
+
+    public void setBookedRooms(List<BookedRoom> bookedRooms) {
+        this.bookedRooms = bookedRooms;
+    }
+
+    public void setId(UUID id) {
+        this.id = id;
+    }
 
     public UUID getId() {
         return id;

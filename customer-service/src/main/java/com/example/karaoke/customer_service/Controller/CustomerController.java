@@ -1,8 +1,7 @@
 package com.example.karaoke.customer_service.Controller;
 
-import com.example.karaoke.customer_service.Response.CustomerRevenue;
 import com.example.karaoke.customer_service.Entity.Customer;
-import com.example.karaoke.customer_service.Request.AddCustomerRequest;
+import com.example.karaoke.customer_service.Entity.CustomerRevenue;
 import com.example.karaoke.customer_service.Service.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -18,7 +17,7 @@ public class CustomerController {
     private CustomerService customerService;
 
     @PostMapping("/addCustomer")
-    public ResponseEntity<String> addCustomer(@RequestBody AddCustomerRequest request) {
+    public ResponseEntity<String> addCustomer(@RequestBody Customer request) {
         boolean addCustomerStatus = customerService.addCustomer(request);
         if (!addCustomerStatus) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Custmer already exists, can not create");
@@ -57,13 +56,13 @@ public class CustomerController {
     }
 
     @PutMapping("/updateCustomer")
-    public ResponseEntity<String> updateCustomerInfo(@RequestBody AddCustomerRequest request) {
+    public ResponseEntity<String> updateCustomerInfo(@RequestBody Customer request) {
         boolean updateCustomerResponse = customerService.updateCustomer(request);
         return ResponseEntity.status(HttpStatus.OK).build();
     };
 
     @DeleteMapping("/deleteCustomer")
-    public ResponseEntity<String> deleteCustomer(@RequestBody AddCustomerRequest request) {
+    public ResponseEntity<String> deleteCustomer(@RequestBody Customer request) {
         boolean deleteCustomerRes = customerService.deleteCustomer(request);
         return ResponseEntity.status(HttpStatus.OK).build();
     };

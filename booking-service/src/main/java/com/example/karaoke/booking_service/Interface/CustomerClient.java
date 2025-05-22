@@ -1,7 +1,6 @@
 package com.example.karaoke.booking_service.Interface;
 
 import com.example.karaoke.booking_service.Entity.Customer;
-import com.example.karaoke.booking_service.Request.AddCustomerRequest;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,5 +13,5 @@ public interface CustomerClient {
     @GetMapping("/api/customers/getCustomer")
     ResponseEntity<Customer> getCustomer(@RequestParam String phoneNumber);
     @PostMapping("/api/customers/addCustomer")
-    ResponseEntity<String> addCustomer(@RequestBody AddCustomerRequest request);
+    ResponseEntity<String> addCustomer(@RequestBody Customer request);
 }

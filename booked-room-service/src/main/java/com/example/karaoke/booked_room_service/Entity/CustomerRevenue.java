@@ -1,6 +1,4 @@
-package com.example.karaoke.booked_room_service.Response;
-
-import com.example.karaoke.booked_room_service.Entity.Booking;
+package com.example.karaoke.booked_room_service.Entity;
 
 import java.math.BigDecimal;
 import java.util.List;

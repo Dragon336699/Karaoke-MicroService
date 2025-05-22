@@ -1,9 +1,8 @@
 package com.example.karaoke.customer_service.Service;
 
-import com.example.karaoke.customer_service.Response.CustomerRevenue;
+import com.example.karaoke.customer_service.Entity.CustomerRevenue;
 import com.example.karaoke.customer_service.Entity.Customer;
 import com.example.karaoke.customer_service.Mediator.CustomerMediatorImp;
-import com.example.karaoke.customer_service.Request.AddCustomerRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,7 +13,7 @@ public class CustomerService {
     @Autowired
     private CustomerMediatorImp customerMediator;
 
-    public boolean addCustomer(AddCustomerRequest request) {
+    public boolean addCustomer(Customer request) {
         return customerMediator.addCustomer(request);
     }
 
@@ -22,11 +21,11 @@ public class CustomerService {
         return customerMediator.findCustomer(phoneNumber);
     }
 
-    public boolean updateCustomer(AddCustomerRequest request) {
+    public boolean updateCustomer(Customer request) {
         return customerMediator.updateCustomer(request);
     }
 
-    public boolean deleteCustomer(AddCustomerRequest request) {
+    public boolean deleteCustomer(Customer request) {
         return customerMediator.deleteCustomer(request);
     }
 

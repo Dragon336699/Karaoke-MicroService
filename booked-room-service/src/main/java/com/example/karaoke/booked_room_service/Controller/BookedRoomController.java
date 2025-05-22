@@ -1,7 +1,6 @@
 package com.example.karaoke.booked_room_service.Controller;
 
-import com.example.karaoke.booked_room_service.Entity.BookedRoom;
-import com.example.karaoke.booked_room_service.Response.CustomerRevenue;
+import com.example.karaoke.booked_room_service.Entity.CustomerRevenue;
 import com.example.karaoke.booked_room_service.Entity.Room;
 import com.example.karaoke.booked_room_service.Service.BookedRoomService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.time.OffsetDateTime;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("booked-rooms")
@@ -27,7 +27,7 @@ public class BookedRoomController {
     }
 
     @PostMapping("/addBookedRooms")
-    public ResponseEntity<String> addBookedRooms(@RequestBody BookedRoom request) {
+    public ResponseEntity<String> addBookedRooms(@RequestBody Map<String, Object> request) {
         boolean customersRevenue = bookedRoomService.addBookedRooms(request);
         if (customersRevenue) {
             return ResponseEntity.status(HttpStatus.CREATED).build();

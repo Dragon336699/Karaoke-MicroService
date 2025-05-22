@@ -1,6 +1,6 @@
 package com.example.karaoke.customer_service.Interface;
 
-import com.example.karaoke.customer_service.Response.CustomerRevenue;
+import com.example.karaoke.customer_service.Entity.CustomerRevenue;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;

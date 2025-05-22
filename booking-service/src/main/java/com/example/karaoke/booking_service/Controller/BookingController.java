@@ -1,10 +1,8 @@
 package com.example.karaoke.booking_service.Controller;
 
-import com.example.karaoke.booking_service.Response.CustomerRevenue;
+import com.example.karaoke.booking_service.Entity.CustomerRevenue;
 import com.example.karaoke.booking_service.Response.ResponseMessage;
-import com.example.karaoke.booking_service.Request.BookingRequest;
 import com.example.karaoke.booking_service.Service.BookingService;
-import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,6 +10,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("booking")
@@ -20,7 +19,7 @@ public class BookingController {
     @Autowired
     private BookingService bookingService;
     @PostMapping("/addBooking")
-    public ResponseEntity<?> addNewBooking(@Valid @RequestBody BookingRequest request) {
+    public ResponseEntity<?> addNewBooking( @RequestBody Map<String, Object> request) {
         boolean bookingStatus = bookingService.booking(request);
         if (bookingStatus) {
             return ResponseEntity.status(HttpStatus.CREATED).body(new ResponseMessage("Created Booking Successfully"));

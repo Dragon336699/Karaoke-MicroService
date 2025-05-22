@@ -1,11 +1,10 @@
 package com.example.karaoke.customer_service.Mediator;
 
-import com.example.karaoke.customer_service.Response.CustomerRevenue;
+import com.example.karaoke.customer_service.Entity.CustomerRevenue;
 import com.example.karaoke.customer_service.Entity.Customer;
 import com.example.karaoke.customer_service.Interface.BookingClient;
 import com.example.karaoke.customer_service.Interface.CustomerMediator;
 import com.example.karaoke.customer_service.Repository.CustomerRepository;
-import com.example.karaoke.customer_service.Request.AddCustomerRequest;
 import jakarta.transaction.Transactional;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +25,7 @@ public class CustomerMediatorImp implements CustomerMediator {
     private BookingClient bookingClient;
 
     @Override
-    public boolean addCustomer(AddCustomerRequest request) {
+    public boolean addCustomer(Customer request) {
         boolean checkExist = customerRepository.existsByPhoneNumber(request.getPhoneNumber());
         if (!checkExist) {
             Customer customer = new Customer();
@@ -48,7 +47,7 @@ public class CustomerMediatorImp implements CustomerMediator {
     }
 
     @Override
-    public boolean updateCustomer (AddCustomerRequest request) {
+    public boolean updateCustomer (Customer request) {
         Customer existingCustomer = customerRepository.findByPhoneNumber(request.getPhoneNumber());
         existingCustomer.setPhoneNumber(request.getPhoneNumber());
         existingCustomer.setFullName(request.getFullName());
@@ -58,7 +57,7 @@ public class CustomerMediatorImp implements CustomerMediator {
 
     @Override
     @Transactional
-    public boolean deleteCustomer(AddCustomerRequest request) {
+    public boolean deleteCustomer(Customer request) {
         long rowEffected = customerRepository.deleteByPhoneNumber(request.getPhoneNumber());
         return rowEffected > 0;
     }

@@ -1,4 +1,6 @@
-package com.example.karaoke.booking_service.Response;
+package com.example.karaoke.customer_service.Entity;
+
+import com.example.karaoke.customer_service.Entity.Booking;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -9,7 +11,20 @@ public class CustomerRevenue {
     private String fullName;
     private String phoneNumber;
     private BigDecimal revenue;
-    private List<BookingResponse> bookings;
+    private List<Booking> bookings;
+
+
+    public CustomerRevenue() {
+        this.revenue = BigDecimal.ZERO;
+    }
+
+    public List<Booking> getBookings() {
+        return bookings;
+    }
+
+    public void setBookings(List<Booking> bookings) {
+        this.bookings = bookings;
+    }
 
     public UUID getId() {
         return Id;
@@ -27,14 +42,6 @@ public class CustomerRevenue {
         this.fullName = fullName;
     }
 
-    public BigDecimal getRevenue() {
-        return revenue;
-    }
-
-    public void setRevenue(BigDecimal revenue) {
-        this.revenue = revenue;
-    }
-
     public String getPhoneNumber() {
         return phoneNumber;
     }
@@ -43,11 +50,11 @@ public class CustomerRevenue {
         this.phoneNumber = phoneNumber;
     }
 
-    public List<BookingResponse> getBookings() {
-        return bookings;
+    public BigDecimal getRevenue() {
+        return revenue;
     }
 
-    public void setBookings(List<BookingResponse> bookings) {
-        this.bookings = bookings;
+    public void setRevenue(BigDecimal revenue) {
+        this.revenue = revenue;
     }
 }
