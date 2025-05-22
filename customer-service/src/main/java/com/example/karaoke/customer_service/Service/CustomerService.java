@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class CustomerService {
@@ -33,7 +34,7 @@ public class CustomerService {
         return customerMediator.getAllCustomers();
     }
 
-    public List<CustomerRevenue> getAllCustomersRevenue() {
+    public List<Map<String, Object>> getAllCustomersRevenue() {
         return customerMediator.getAllCustomersRevenue();
     }
 }

@@ -14,5 +14,5 @@ public interface BookedRoomClient {
     @PostMapping("/api/booked-rooms/addBookedRooms")
     ResponseEntity<String> addBookedRooms(@RequestBody Map<String, Object> request);
     @PostMapping("api/booked-rooms/setUsersBookedRoom")
-    ResponseEntity<List<CustomerRevenue>> setUsersBookedRoom(@RequestBody List<CustomerRevenue> request);
+    ResponseEntity<List<Map<String, Object>>> setUsersBookedRoom(@RequestBody List<Map<String, Object>> request);
 }

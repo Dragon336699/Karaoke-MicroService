@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/customers")
@@ -46,8 +47,8 @@ public class CustomerController {
     }
 
     @GetMapping("/getCustomersRevenue")
-    public ResponseEntity<List<CustomerRevenue>> GetCustomersRevenue() {
-        List<CustomerRevenue> customersRevenue = customerService.getAllCustomersRevenue();
+    public ResponseEntity<List<Map<String, Object>>> GetCustomersRevenue() {
+        List<Map<String, Object>> customersRevenue = customerService.getAllCustomersRevenue();
         if (customersRevenue == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }

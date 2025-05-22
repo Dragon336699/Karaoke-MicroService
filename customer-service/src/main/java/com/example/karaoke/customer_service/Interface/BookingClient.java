@@ -7,9 +7,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
+import java.util.Map;
 
 @FeignClient(name = "gateway-service", contextId="bookingClient")
 public interface BookingClient {
     @PostMapping("/api/booking/getUsersBooking")
-    ResponseEntity<List<CustomerRevenue>> getUsersBooking(@RequestBody List<CustomerRevenue> request);
+    ResponseEntity<List<Map<String, Object>>> getUsersBooking(@RequestBody List<Map<String, Object>> request);
 }

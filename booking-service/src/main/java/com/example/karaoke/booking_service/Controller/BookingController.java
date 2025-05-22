@@ -28,8 +28,8 @@ public class BookingController {
     }
 
     @PostMapping("/getUsersBooking")
-    public ResponseEntity<List<CustomerRevenue>> addNewBooking(@RequestBody List<CustomerRevenue> request) {
-        List<CustomerRevenue> customersRevenue = bookingService.setCustomersBooking(request);
+    public ResponseEntity<List<Map<String, Object>>> addNewBooking(@RequestBody List<Map<String, Object>> request) {
+        List<Map<String, Object>> customersRevenue = bookingService.setCustomersBooking(request);
         if (!customersRevenue.isEmpty()) {
             return ResponseEntity.ok(customersRevenue);
         }

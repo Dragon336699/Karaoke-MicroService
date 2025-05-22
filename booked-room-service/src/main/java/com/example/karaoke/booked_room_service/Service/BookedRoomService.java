@@ -1,5 +1,6 @@
 package com.example.karaoke.booked_room_service.Service;
 
+import com.example.karaoke.booked_room_service.Entity.Booking;
 import com.example.karaoke.booked_room_service.Entity.CustomerRevenue;
 import com.example.karaoke.booked_room_service.Entity.BookedRoom;
 import com.example.karaoke.booked_room_service.Entity.Room;
@@ -10,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.*;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -61,15 +63,28 @@ public class BookedRoomService {
         return true;
     }
 
-    public List<CustomerRevenue> setBookedRooms(List<CustomerRevenue> customersRevenue) {
+    public List<Map<String, Object>> setBookedRooms(List<Map<String, Object>> customersRevenue) {
         customersRevenue.forEach((customer) -> {
-            customer.getBookings().forEach((booking) -> {
-                List<BookedRoom> bookedRooms = bookedRepository.findByBookingId(booking.getId());
-                List<BookedRoom> bookedRoomDtos = bookedRooms.stream()
-                        .map((bookedRoom) -> mapper.map(bookedRoom, BookedRoom.class))
-                        .toList();
-                booking.setBookedRooms(bookedRoomDtos);
-            });
+            List<Map<String, Object>> customerBookings = (List<Map<String, Object>>) customer.get("bookings");
+            if (!customerBookings.isEmpty()) {
+                customerBookings.forEach((booking) -> {
+                    UUID bookingId = UUID.fromString(booking.get("id").toString());
+                    List<BookedRoom> bookedRooms = bookedRepository.findByBookingId(bookingId);
+                    List<Map<String, Object>> bookedRoomDtos = bookedRooms.stream()
+                            .map(bookedRoom -> {
+                                Map<String, Object> map = new HashMap<>();
+                                map.put("id", bookedRoom.getId());
+                                map.put("checkInTime", bookedRoom.getCheckInTime());
+                                map.put("checkOutTime", bookedRoom.getCheckOutTime());
+                                map.put("roomId", bookedRoom.getRoomId());
+                                map.put("priceAtBookTime", bookedRoom.getPriceAtBookTime());
+                                map.put("bookingId", bookedRoom.getBookingId());
+                                return map;
+                            })
+                            .toList();
+                    booking.put("bookedRooms", bookedRoomDtos);
+                });
+            }
         });
         return customersRevenue;
     }

@@ -36,8 +36,8 @@ public class BookedRoomController {
     }
 
     @PostMapping("/setUsersBookedRoom")
-    public ResponseEntity<List<CustomerRevenue>> addNewBooking(@RequestBody List<CustomerRevenue> request) {
-        List<CustomerRevenue> customersRevenue = bookedRoomService.setBookedRooms(request);
+    public ResponseEntity<List<Map<String, Object>>> addNewBooking(@RequestBody List<Map<String, Object>> request) {
+        List<Map<String, Object>> customersRevenue = bookedRoomService.setBookedRooms(request);
         if (!customersRevenue.isEmpty()) {
             return ResponseEntity.ok(customersRevenue);
         }

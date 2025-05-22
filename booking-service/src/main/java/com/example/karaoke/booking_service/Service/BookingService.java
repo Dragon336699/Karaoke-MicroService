@@ -89,16 +89,25 @@ public class BookingService {
         return false;
     }
 
-    public List<CustomerRevenue> setCustomersBooking(List<CustomerRevenue> customersRevenue) {
+    public List<Map<String, Object>> setCustomersBooking(List<Map<String, Object>> customersRevenue) {
+
         customersRevenue.forEach((customer) -> {
-            List<Booking> bookings = bookingRepository.findByCustomerId(customer.getId());
-//            List<Booking> bookingsResponse = bookings.stream()
-//                    .map((booking) -> mapper.map(booking, BookingResponse.class))
-//                    .toList();
-            customer.setBookings(bookings);
+            UUID customerId = UUID.fromString((String) customer.get("id"));
+            List<Booking> bookings = bookingRepository.findByCustomerId(customerId);
+            List<Map<String, Object>> bookingMaps = bookings.stream()
+                    .map(booking -> {
+                        Map<String, Object> map = new HashMap<>();
+                        map.put("id", booking.getId());
+                        map.put("bookDay", booking.getBookDay());
+                        map.put("note", booking.getNote());
+                        map.put("customerId", booking.getCustomerId());
+                        map.put("userId", booking.getUserId());
+                        return map;
+                    }).toList();
+            customer.put("bookings", bookingMaps);
         });
 
-        ResponseEntity<List<CustomerRevenue>> customersRevenueRes = bookedRoomClient.setUsersBookedRoom(customersRevenue);
+        ResponseEntity<List<Map<String, Object>>> customersRevenueRes = bookedRoomClient.setUsersBookedRoom(customersRevenue);
         return customersRevenueRes.getBody();
     }
 
