@@ -37,18 +37,8 @@ public class BookedRoomService {
         return availableRooms;
     }
 
-    public boolean addBookedRooms(Map<String, Object> request) {
-        List<String> idStrings = (List<String>) request.get("roomIds");
-        String checkInTimeString = request.get("checkInTime").toString();
-        String checkOutTimeString = request.get("checkOutTime").toString();
-        UUID bookingId = UUID.fromString(request.get("bookingId").toString());
-
-        List<UUID> roomIds = idStrings.stream()
-                .map(UUID::fromString)
-                .toList();
-
-        List<Room> roomsByIds = roomClient.getRoomsByListIds(roomIds);
-        List<BookedRoom> addBookedRooms = roomsByIds.stream().map(room -> {
+    public boolean addBookedRooms(BookedRoom request) {
+        List<BookedRoom> addBookedRooms = request.getRooms().stream().map(room -> {
             BookedRoom bookRoom = new BookedRoom();
             bookRoom.setCheckInTime(LocalDateTime.parse(checkInTimeString));
             bookRoom.setCheckOutTime(LocalDateTime.parse(checkOutTimeString));
@@ -65,10 +55,7 @@ public class BookedRoomService {
         customersRevenue.forEach((customer) -> {
             customer.getBookings().forEach((booking) -> {
                 List<BookedRoom> bookedRooms = bookedRepository.findByBookingId(booking.getId());
-                List<BookedRoom> bookedRoomDtos = bookedRooms.stream()
-                        .map((bookedRoom) -> mapper.map(bookedRoom, BookedRoom.class))
-                        .toList();
-                booking.setBookedRooms(bookedRoomDtos);
+                booking.setBookedRooms(bookedRooms);
             });
         });
         return customersRevenue;

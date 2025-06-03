@@ -1,5 +1,7 @@
 package com.example.karaoke.booked_room_service.Entity;
 
+import jakarta.persistence.Transient;
+
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;

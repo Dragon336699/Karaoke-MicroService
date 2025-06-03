@@ -21,7 +21,13 @@ public class Booking {
     private UUID customerId;
     private UUID userId;
     @Transient
+    private Customer customer;
+    @Transient
     private List<BookedRoom> bookedRooms;
+
+    public void setId(UUID id) {
+        this.id = id;
+    }
 
     public List<BookedRoom> getBookedRooms() {
         return bookedRooms;
@@ -29,10 +35,6 @@ public class Booking {
 
     public void setBookedRooms(List<BookedRoom> bookedRooms) {
         this.bookedRooms = bookedRooms;
-    }
-
-    public void setId(UUID id) {
-        this.id = id;
     }
 
     public UUID getId() {
@@ -69,5 +71,13 @@ public class Booking {
 
     public void setUserId(UUID userId) {
         this.userId = userId;
+    }
+
+    public Customer getCustomer() {
+        return customer;
+    }
+
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
     }
 }

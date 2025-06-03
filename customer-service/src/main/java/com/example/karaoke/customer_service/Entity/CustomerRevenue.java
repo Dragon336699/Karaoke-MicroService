@@ -1,7 +1,5 @@
 package com.example.karaoke.customer_service.Entity;
 
-import com.example.karaoke.customer_service.Entity.Booking;
-
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.UUID;

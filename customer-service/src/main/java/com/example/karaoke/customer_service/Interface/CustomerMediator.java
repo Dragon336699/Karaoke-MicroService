@@ -1,7 +1,7 @@
 package com.example.karaoke.customer_service.Interface;
 
-import com.example.karaoke.customer_service.Entity.Customer;
 import com.example.karaoke.customer_service.Entity.CustomerRevenue;
+import com.example.karaoke.customer_service.Entity.Customer;
 
 import java.util.List;
 

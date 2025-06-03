@@ -3,6 +3,7 @@ package com.example.karaoke.booked_room_service.Entity;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
+import jakarta.persistence.Transient;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -17,8 +18,26 @@ public class BookedRoom {
     private LocalDateTime checkInTime;
     private LocalDateTime checkOutTime;
     private UUID roomId;
+    @Transient
+    private List<Room> rooms;
     private BigDecimal priceAtBookTime;
     private UUID bookingId;
+
+    public List<Room> getRooms() {
+        return rooms;
+    }
+
+    public void setRooms(List<Room> rooms) {
+        this.rooms = rooms;
+    }
+
+    public UUID getRoomId() {
+        return roomId;
+    }
+
+    public void setRoomId(UUID roomId) {
+        this.roomId = roomId;
+    }
 
     public void setId(UUID id) {
         this.id = id;
@@ -52,13 +71,6 @@ public class BookedRoom {
         this.checkOutTime = checkOutTime;
     }
 
-    public UUID getRoomId() {
-        return roomId;
-    }
-
-    public void setRoomId(UUID roomId) {
-        this.roomId = roomId;
-    }
 
     public BigDecimal getPriceAtBookTime() {
         return priceAtBookTime;

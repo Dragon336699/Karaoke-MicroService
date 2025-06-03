@@ -14,7 +14,6 @@ public class CustomerRevenue {
     public UUID getId() {
         return Id;
     }
-
     public void setId(UUID id) {
         Id = id;
     }

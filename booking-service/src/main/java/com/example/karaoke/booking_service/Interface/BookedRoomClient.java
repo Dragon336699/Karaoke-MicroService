@@ -1,5 +1,6 @@
 package com.example.karaoke.booking_service.Interface;
 
+import com.example.karaoke.booking_service.Entity.BookedRoom;
 import com.example.karaoke.booking_service.Entity.CustomerRevenue;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.ResponseEntity;

@@ -1,7 +1,9 @@
 package com.example.karaoke.booked_room_service.Controller;
 
+import com.example.karaoke.booked_room_service.Entity.BookedRoom;
 import com.example.karaoke.booked_room_service.Entity.CustomerRevenue;
 import com.example.karaoke.booked_room_service.Entity.Room;
+import com.example.karaoke.booked_room_service.Response.ResponseMessage;
 import com.example.karaoke.booked_room_service.Service.BookedRoomService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -27,12 +29,12 @@ public class BookedRoomController {
     }
 
     @PostMapping("/addBookedRooms")
-    public ResponseEntity<String> addBookedRooms(@RequestBody Map<String, Object> request) {
-        boolean customersRevenue = bookedRoomService.addBookedRooms(request);
-        if (customersRevenue) {
-            return ResponseEntity.status(HttpStatus.CREATED).build();
+    public ResponseEntity<?> addBookedRooms(@RequestBody BookedRoom request) {
+        boolean addBookedRoomsStatus = bookedRoomService.addBookedRooms(request);
+        if (addBookedRoomsStatus) {
+            return ResponseEntity.status(HttpStatus.CREATED).body(new ResponseMessage("Created Booking Successfully"));
         }
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ResponseMessage("Created Booking Failed"));
     }
 
     @PostMapping("/setUsersBookedRoom")

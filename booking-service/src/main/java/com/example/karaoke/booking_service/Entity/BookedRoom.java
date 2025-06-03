@@ -1,5 +1,7 @@
 package com.example.karaoke.booking_service.Entity;
 
+import jakarta.persistence.Transient;
+
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -11,6 +13,16 @@ public class BookedRoom {
     private LocalDateTime checkOutTime;
     private BigDecimal priceAtBookTime;
     private UUID bookingId;
+    @Transient
+    private List<Room> rooms;
+
+    public List<Room> getRooms() {
+        return rooms;
+    }
+
+    public void setRooms(List<Room> rooms) {
+        this.rooms = rooms;
+    }
 
     public UUID getBookingId() {
         return bookingId;
