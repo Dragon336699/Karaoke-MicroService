@@ -3,6 +3,8 @@ package com.example.karaoke.booked_room_service.Service;
 import com.example.karaoke.booked_room_service.Entity.CustomerRevenue;
 import com.example.karaoke.booked_room_service.Entity.BookedRoom;
 import com.example.karaoke.booked_room_service.Entity.Room;
+import com.example.karaoke.booked_room_service.Handler.BookedRoomHandler;
+import com.example.karaoke.booked_room_service.Handler.CheckBookedRoomsTimeHandler;
 import com.example.karaoke.booked_room_service.Interface.RoomClient;
 import com.example.karaoke.booked_room_service.Repository.BookedRepository;
 import org.modelmapper.ModelMapper;
@@ -16,12 +18,17 @@ import java.util.UUID;
 
 @Service
 public class BookedRoomService {
+    public final BookedRoomHandler chain;
     @Autowired
     private BookedRepository bookedRepository;
     @Autowired
     private RoomClient roomClient;
     @Autowired
     private ModelMapper mapper;
+
+    public BookedRoomService(CheckBookedRoomsTimeHandler timeCheck) {
+        this.chain = timeCheck;
+    }
 
     public List<Room> getAvailableRooms(OffsetDateTime checkInTime, OffsetDateTime checkOutTime) {
         ZonedDateTime vnCheckInTime = checkInTime.atZoneSameInstant(ZoneId.of("Asia/Ho_Chi_Minh"));
@@ -38,17 +45,23 @@ public class BookedRoomService {
     }
 
     public boolean addBookedRooms(BookedRoom request) {
-        List<BookedRoom> addBookedRooms = request.getRooms().stream().map(room -> {
-            BookedRoom bookRoom = new BookedRoom();
-            bookRoom.setCheckInTime(LocalDateTime.parse(checkInTimeString));
-            bookRoom.setCheckOutTime(LocalDateTime.parse(checkOutTimeString));
-            bookRoom.setRoomId(room.getId());
-            bookRoom.setPriceAtBookTime(room.getPricePerHour());
-            bookRoom.setBookingId(bookingId);
-            return bookRoom;
-        }).toList();
-        bookedRepository.saveAll(addBookedRooms);
-        return true;
+        try {
+            chain.handle(request);
+            List<BookedRoom> addBookedRooms = request.getRooms().stream().map(room -> {
+                BookedRoom bookRoom = new BookedRoom();
+                bookRoom.setCheckInTime(request.getCheckInTime());
+                bookRoom.setCheckOutTime(request.getCheckOutTime());
+                bookRoom.setRoomId(room.getId());
+                bookRoom.setPriceAtBookTime(room.getPricePerHour());
+                bookRoom.setBookingId(request.getBookingId());
+                return bookRoom;
+            }).toList();
+            bookedRepository.saveAll(addBookedRooms);
+            return true;
+        } catch (RuntimeException ex) {
+            return false;
+        }
+
     }
 
     public List<CustomerRevenue> setBookedRooms(List<CustomerRevenue> customersRevenue) {

@@ -5,6 +5,8 @@ import com.example.karaoke.booking_service.Entity.Customer;
 import com.example.karaoke.booking_service.Entity.CustomerRevenue;
 import com.example.karaoke.booking_service.Entity.Booking;
 import com.example.karaoke.booking_service.Entity.CustomerRevenue;
+import com.example.karaoke.booking_service.Handler.BookingHandler;
+import com.example.karaoke.booking_service.Handler.CheckUserHandler;
 import com.example.karaoke.booking_service.Interface.BookedRoomClient;
 import com.example.karaoke.booking_service.Interface.CustomerClient;
 import com.example.karaoke.booking_service.Repository.BookingRepository;
@@ -20,34 +22,26 @@ import java.util.UUID;
 
 @Service
 public class BookingService {
+    private final BookingHandler chain;
     @Autowired
     private BookingRepository bookingRepository;
-    @Autowired
-    private CustomerClient customerClient;
     @Autowired
     private BookedRoomClient bookedRoomClient;
     @Autowired
     private ModelMapper mapper;
 
+    public BookingService(CheckUserHandler checkUserHandler) {
+        this.chain = checkUserHandler;
+    }
+
     public UUID booking(Booking request) {
-        Customer customer;
-        try {
-            ResponseEntity<Customer> customerResponse = customerClient.getCustomer(request.getCustomer().getPhoneNumber());
-            customer = customerResponse.getBody();
-        } catch (FeignException.NotFound ex) {
-            Customer addCustomerRequest = new Customer();
-            addCustomerRequest.setFullName(request.getCustomer().getFullName());
-            addCustomerRequest.setPhoneNumber(request.getCustomer().getPhoneNumber());
-            customerClient.addCustomer(addCustomerRequest);
-            ResponseEntity<Customer> customerResponse = customerClient.getCustomer(request.getCustomer().getPhoneNumber());
-            customer = customerResponse.getBody();
-        }
+        chain.handle(request);
         try {
             Booking addBooking = new Booking();
             addBooking.setUserId(request.getUserId());
             addBooking.setBookDay(LocalDateTime.now());
             addBooking.setNote(request.getNote());
-            addBooking.setCustomerId(customer.getId());
+            addBooking.setCustomerId(request.getCustomer().getId());
             Booking savedBooking = bookingRepository.save(addBooking);
 
             return savedBooking.getId();

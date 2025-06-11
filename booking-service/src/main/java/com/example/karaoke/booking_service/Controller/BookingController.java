@@ -4,6 +4,7 @@ import com.example.karaoke.booking_service.Entity.Booking;
 import com.example.karaoke.booking_service.Entity.CustomerRevenue;
 import com.example.karaoke.booking_service.Response.ResponseMessage;
 import com.example.karaoke.booking_service.Service.BookingService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
